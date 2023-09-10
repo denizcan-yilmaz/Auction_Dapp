@@ -1,3 +1,45 @@
+type ItemBase = record {
+    description: text;
+    result_date: nat64; 
+    is_active: bool;
+    latest_update: nat64;
+};
+
+type BidBase = record {
+    bid_amount: nat64;
+    bid_date: nat64;
+};
+
+type Bid = record {
+    item_id: nat64;
+    bidder_principal: principal;
+    bid_date: nat64; 
+    bid_amount: nat64;
+};
+
+type Item = record {
+    item_owner: principal;
+    id: nat64;
+    description: text;
+    highest_bid: nat64;
+    latest_update: nat64;
+    result_date: nat64;
+    bid_vector: vec Bid;
+    is_active: bool;
+};
+
+type Res = variant {
+    Ok: text;
+    Err : text;
+};
+
+
 service : {
-    "greet": (text) -> (text) query;
+    "getAllItems": () -> (opt vec record { nat64; Item } ) query;
+    "getItem": (nat64) -> (opt Item) query;
+    "listItem": (ItemBase) -> (opt Item);
+    "editItem": (nat64, ItemBase) -> (Res);
+    "deleteItem": (nat64) -> (Res);
+    "stopListing": (nat64) -> (Res);
+    "bidForAnItem": (nat64, BidBase) -> (Res);
 }
