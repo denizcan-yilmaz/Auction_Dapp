@@ -216,7 +216,7 @@ fn bid_for_an_item(key: u64, bid: BidBase) -> Result<String, String> {
             if !fi.is_active {
                 return Err(format!("The selected item is not actively listed.",));
             }
-            if bid.bid_amount > fi.highest_bid {
+            if bid.bid_amount <= fi.highest_bid {
                 return Err(format!(
                     "Your bid cannot be lower than the current highest bid.",
                 ));
